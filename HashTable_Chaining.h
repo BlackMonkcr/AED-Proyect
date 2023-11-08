@@ -1,0 +1,10 @@
+#ifndef AED_PROYECT_HASHTABLE_CHAINING_H
+#define AED_PROYECT_HASHTABLE_CHAINING_H
+
+
+class HashTable_Chaining {
+
+};
+
+
+#endif //AED_PROYECT_HASHTABLE_CHAINING_H
