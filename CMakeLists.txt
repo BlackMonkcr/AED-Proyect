@@ -7,4 +7,6 @@ include_directories(.)
 
 add_executable(AED_Proyect
         HashTable_OpenAddressing.h
-        main.cpp)
+        main.cpp
+        ForwardList.h
+        HashCommonFunctions.cpp)

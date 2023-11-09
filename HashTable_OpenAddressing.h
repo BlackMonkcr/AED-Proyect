@@ -1,23 +1,20 @@
 #ifndef AED_PROYECT_HASHTABLE_OPENADDRESSING_H
 #define AED_PROYECT_HASHTABLE_OPENADDRESSING_H
 
-#include "pair.h"
-#include <iostream>
-#include <unordered_set>
+
+#include "HashCommonFunctions.cpp"
 using namespace std;
 
 
 template<typename TK, typename TV>
 class HashTable_OpenAddressing {
     float maxFillFactor{};
-    int size;
+    int size{};
     int capacity{};
     int numberReHashes{};
     Pair<TK, TV>* table;
 
-    friend bool isPrime(int n);
     int getIndex(TK key, int _capacity);
-    int getNewCapacity();
     void rehash();
 
 public:
@@ -40,7 +37,7 @@ public:
     ~HashTable_OpenAddressing();
 };
 
-bool isPrime(int n) {
+bool isPrimeOpenAddressing(int n) {
     for (int i = 2; i < n; i++) {
         if (n%i == 0) {
             return false;
@@ -49,22 +46,36 @@ bool isPrime(int n) {
     return true;
 }
 
+int getNewCapacityOpenAddressing(int capacity) {
+    int newCapacity = capacity*2;
+    while (!isPrimeOpenAddressing(newCapacity)) {
+        newCapacity++;
+    }
+    return newCapacity;
+}
+
+template<typename TK, typename TV>
+int HashTable_OpenAddressing<TK, TV>::getIndex(TK key, int _capacity) {
+    std::hash<TK> hashFunction;
+    return hashFunction(key) % _capacity;
+}
+
 template<typename TK, typename TV>
 HashTable_OpenAddressing<TK, TV>::~HashTable_OpenAddressing() {
-    delete[] table;
+    delete[] this->table;
 }
 
 template<typename TK, typename TV>
 int HashTable_OpenAddressing<TK, TV>::getNumberReHashes() {
-    return numberReHashes;
+    return this->numberReHashes;
 }
 
 template<typename TK, typename TV>
 void HashTable_OpenAddressing<TK, TV>::print() {
-    for (int i = 0; i < capacity; i++) {
-        if (table[i].key != TK()) {
+    for (int i = 0; i < this->capacity; i++) {
+        if (this->table[i].key != TK()) {
             cout << "Bucket N°" << i << ": "
-                 << table[i].key << " " << table[i].value << endl;
+                 << this->table[i].key << " " << this->table[i].value << endl;
         } else {
             cout << "Bucket N°" << i << ": " << "Empty" << endl;
         }
@@ -73,18 +84,18 @@ void HashTable_OpenAddressing<TK, TV>::print() {
 
 template<typename TK, typename TV>
 bool HashTable_OpenAddressing<TK, TV>::search(TK key) {
-    int index = getIndex(key, capacity);
+    int index = getIndex(key, this->capacity);
     int firstIndex = index;
-    while (table[index].key != TK() && table[index].key != key) {
+    while (this->table[index].key != TK() && this->table[index].key != key) {
         index++;
         if (index == firstIndex-1) {
             return false;
-        } else if (index >= capacity) {
+        } else if (index >= this->capacity) {
             index = 0;
         }
     }
 
-    if (table[index].key == key) {
+    if (this->table[index].key == key) {
         return true;
     }
 
@@ -93,20 +104,19 @@ bool HashTable_OpenAddressing<TK, TV>::search(TK key) {
 
 template<typename TK, typename TV>
 TV HashTable_OpenAddressing<TK, TV>::get(TK key) {
-    int index = getIndex(key, capacity);
+    int index = getIndex(key, this->capacity);
     int firstIndex = index;
-    while (table[index].key != TK() && table[index].key != key) {
+    while (this->table[index].key != TK() && this->table[index].key != key) {
         index++;
         if (index == firstIndex-1) {
-            cout << "Key not found" << endl;
-            throw std::exception();
-        } else if (index >= capacity) {
+            throw std::out_of_range("Key not found");
+        } else if (index >= this->capacity) {
             index = 0;
         }
     }
 
-    if (table[index].key == key) {
-        return table[index].value;
+    if (this->table[index].key == key) {
+        return this->table[index].value;
     }
 
     return TV();
@@ -114,91 +124,76 @@ TV HashTable_OpenAddressing<TK, TV>::get(TK key) {
 
 template<typename TK, typename TV>
 void HashTable_OpenAddressing<TK, TV>::remove(TK key) {
-    int index = getIndex(key, capacity);
+    int index = getIndex(key, this->capacity);
     int firstIndex = index;
-    while (table[index].key != TK() && table[index].key != key) {
+    while (this->table[index].key != TK() && this->table[index].key != key) {
         index++;
         if (index == firstIndex-1) {
-            cout << "Key not found" << endl;
-            throw std::exception();
-        } else if (index >= capacity) {
+            throw std::out_of_range("Key not found");
+        } else if (index >= this->capacity) {
             index = 0;
         }
     }
 
-    if (table[index].key == key) {
-        table[index] = Pair<TK, TV>();
-        size--;
+    if (this->table[index].key == key) {
+        this->table[index] = Pair<TK, TV>();
+        this->size--;
     }
 }
 
 template<typename TK, typename TV>
 void HashTable_OpenAddressing<TK, TV>::insert(TK key, TV value) {
-    if (size > capacity * maxFillFactor) {
+    if (this->size > this->capacity * this->maxFillFactor) {
         rehash();
     }
 
-    int index = getIndex(key, capacity);
-    while (table[index].key != TK() && table[index].key != key) {
+    int index = getIndex(key, this->capacity);
+    while (this->table[index].key != TK() && this->table[index].key != key) {
         index++;
-        if (index >= capacity) {
+        if (index >= this->capacity) {
             index = 0;
         }
     }
 
-    table[index] = Pair<TK, TV>(key, value);
-    size++;
+    this->table[index] = Pair<TK, TV>(key, value);
+    this->size++;
 }
 
 template<typename TK, typename TV>
 HashTable_OpenAddressing<TK, TV>::HashTable_OpenAddressing(float maxFillFactor, int capacity) {
     this->maxFillFactor = maxFillFactor;
-    size = 0;
+    this->size = 0;
     this->capacity = capacity;
-    table = new Pair<TK, TV>[capacity];
-    numberReHashes = 0;
+    this->table = new Pair<TK, TV>[capacity];
+    this->numberReHashes = 0;
 }
 
 template<typename TK, typename TV>
 HashTable_OpenAddressing<TK, TV>::HashTable_OpenAddressing() {
-    maxFillFactor = 0.75;
-    size = 0;
-    capacity = 10;
-    table = new Pair<TK, TV>[capacity];
-    numberReHashes = 0;
+    this->maxFillFactor = 0.75;
+    this->size = 0;
+    this->capacity = 11;
+    this->table = new Pair<TK, TV>[this->capacity];
+    this->numberReHashes = 0;
 }
 
 template<typename TK, typename TV>
 void HashTable_OpenAddressing<TK, TV>::rehash() {
-    numberReHashes++;
-    int newCapacity = getNewCapacity();
+    this->numberReHashes++;
+    int newCapacity = getNewCapacityOpenAddressing(this->capacity);
     auto* newTable = new Pair<TK, TV>[newCapacity];
-    for (int i = 0; i < capacity; i++) {
-        if (table[i].key != TK()) {
-            int index = getIndex(table[i].key, newCapacity);
+    for (int i = 0; i < this->capacity; i++) {
+        if (this->table[i].key != TK()) {
+            int index = getIndex(this->table[i].key, newCapacity);
             while (newTable[index].key != TK()) {
                 index++;
             }
-            newTable[index] = table[i];
+            newTable[index] = this->table[i];
         }
     }
-    delete[] table;
-    table = newTable;
-    capacity = newCapacity;
-}
-
-template<typename TK, typename TV>
-int HashTable_OpenAddressing<TK, TV>::getNewCapacity() {
-    int newCapacity = capacity * 2;
-    while (!isPrime(newCapacity)) {
-        newCapacity++;
-    }
-    return newCapacity;
-}
-
-template<typename TK, typename TV>
-int HashTable_OpenAddressing<TK, TV>::getIndex(TK key, int _capacity) {
-    return std::hash<TK>{}(key)%_capacity;
+    delete[] this->table;
+    this->table = newTable;
+    this->capacity = newCapacity;
 }
 
 
