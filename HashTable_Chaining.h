@@ -67,15 +67,15 @@ int HashTable_Chaining<TK, TV>::getIndex(TK key, size_t _capacity) {
 
 template<typename TK, typename TV>
 void HashTable_Chaining<TK, TV>::rehash(size_t newCapacity) {
-    auto* newTable = new ForwardList<Pair<TK, TV>>[newCapacity];
+    ForwardList<Pair<TK, TV>>* newTable = new ForwardList<Pair<TK, TV>>[newCapacity];
     for (int i = 0; i < capacity; i++) {
         if (table[i].getSize() > 0) {
             Node<Pair<TK, TV>>* temp = table[i].front();
             while (temp != nullptr) {
                 int index = getIndex(temp->data.key, newCapacity);
-                //cout << index << " ";
                 newTable[index].push_front(temp->data);
                 temp = temp->next;
+                cout << temp << endl;
                 if (newTable[index].getSize() > MAX_COLLISION) {
                     delete[] newTable;
                     newCapacity = getNewCapacityChaining(newCapacity);

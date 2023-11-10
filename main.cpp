@@ -55,7 +55,7 @@ void TestOpenAddressing(int n = 100) {
 
 
 void TestChaining(int n = 100) {
-    HashTable_Chaining<int, char> table;
+    HashTable_Chaining<int, char>* table;
     string nameArchive = "../DataChaining.csv";
     ofstream archive;
 
@@ -67,7 +67,7 @@ void TestChaining(int n = 100) {
 
     auto start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.insert(keys[i], char((keys[i]%221)+33));
+        table->insert(keys[i], char((keys[i]%221)+33));
     }
     auto end = std::chrono::steady_clock::now();
 
@@ -81,7 +81,7 @@ void TestChaining(int n = 100) {
 
     start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.get(keys[i]);
+        table->get(keys[i]);
     }
     end = std::chrono::steady_clock::now();
 
@@ -90,10 +90,12 @@ void TestChaining(int n = 100) {
          << " ms" << endl;
 
     archive.open(nameArchive.c_str(), fstream::app);
-    archive << (end-start).count() << "," << table.getNumberReHashes() << "," << n << "\n";
+    archive << (end-start).count() << "," << table->getNumberReHashes() << "," << n << "\n";
     archive.close();
 
-    cout << "Number of rehashes: " << table.getNumberReHashes() << endl << endl;
+    cout << "Number of rehashes: " << table->getNumberReHashes() << endl << endl;
+
+    delete table;
 }
 
 
@@ -113,9 +115,6 @@ int main() {
         TestChaining(1000);
         TestChaining(10000);
         TestChaining(100000);
-        TestChaining(1000000);
-        TestChaining(10000000);
-        TestChaining(100000000);
     }
     return 0;
 }
