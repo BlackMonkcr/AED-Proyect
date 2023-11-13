@@ -1,7 +1,9 @@
 #include "HashTable_Chaining.h"
 #include <chrono>
 #include <fstream>
+#include <array>
 #include <random>
+#include <unordered_map>
 #include "HashTable_OpenAddressing.h"
 
 /* ---------------------------------------------------------------------------*/
@@ -15,15 +17,9 @@ void TestOpenAddressing(int n = 100) {
     string nameArchive = "../DataOpenAddressing.csv";
     ofstream archive;
 
-    vector<int> keys;
-    for (int i = 0; i < n; i++) {
-        int random_number = dist(gen);
-        keys.push_back(random_number);
-    }
-
     auto start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.insert(keys[i], char((keys[i]%221)+33));
+        table.insert(i, char((i%221)+33));
     }
     auto end = std::chrono::steady_clock::now();
 
@@ -37,7 +33,7 @@ void TestOpenAddressing(int n = 100) {
 
     start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.get(keys[i]);
+        table.search(i);
     }
     end = std::chrono::steady_clock::now();
 
@@ -54,20 +50,14 @@ void TestOpenAddressing(int n = 100) {
 }
 
 
-void TestChaining(int n = 100) {
-    HashTable_Chaining<int, char>* table;
+void TestChaining(size_t n = 100) {
+    auto* table = new HashTable_Chaining<int, char>;
     string nameArchive = "../DataChaining.csv";
     ofstream archive;
 
-    vector<int> keys;
-    for (int i = 0; i < n; i++) {
-        int random_number = dist(gen);
-        keys.push_back(random_number);
-    }
-
     auto start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table->insert(keys[i], char((keys[i]%221)+33));
+        table->insert(i, char((i%221)+33));
     }
     auto end = std::chrono::steady_clock::now();
 
@@ -81,7 +71,7 @@ void TestChaining(int n = 100) {
 
     start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table->get(keys[i]);
+        table->search(i);
     }
     end = std::chrono::steady_clock::now();
 
@@ -100,7 +90,7 @@ void TestChaining(int n = 100) {
 
 
 int main() {
-    /*for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         TestOpenAddressing();
         TestOpenAddressing(1000);
         TestOpenAddressing(10000);
@@ -108,13 +98,16 @@ int main() {
         TestOpenAddressing(1000000);
         TestOpenAddressing(10000000);
         TestOpenAddressing(100000000);
-    }*/
+    }
 
     for (int i = 0; i < 10; i++) {
         TestChaining();
         TestChaining(1000);
         TestChaining(10000);
         TestChaining(100000);
+        TestChaining(1000000);
+        TestChaining(10000000);
+        TestChaining(100000000);
     }
     return 0;
 }

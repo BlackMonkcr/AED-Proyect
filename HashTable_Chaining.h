@@ -10,7 +10,7 @@ class HashTable_Chaining {
     size_t capacity{};
     size_t size{};
     int numberReHashes{};
-    const int MAX_COLLISION = 5;
+    const int MAX_COLLISION = 3;
     ForwardList<Pair<TK, TV>>* table = nullptr;
 
     void rehash(size_t newCapacity);
@@ -67,7 +67,7 @@ int HashTable_Chaining<TK, TV>::getIndex(TK key, size_t _capacity) {
 
 template<typename TK, typename TV>
 void HashTable_Chaining<TK, TV>::rehash(size_t newCapacity) {
-    ForwardList<Pair<TK, TV>>* newTable = new ForwardList<Pair<TK, TV>>[newCapacity];
+    auto* newTable = new ForwardList<Pair<TK, TV>>[newCapacity];
     for (int i = 0; i < capacity; i++) {
         if (table[i].getSize() > 0) {
             Node<Pair<TK, TV>>* temp = table[i].front();
@@ -75,8 +75,8 @@ void HashTable_Chaining<TK, TV>::rehash(size_t newCapacity) {
                 int index = getIndex(temp->data.key, newCapacity);
                 newTable[index].push_front(temp->data);
                 temp = temp->next;
-                cout << temp << endl;
                 if (newTable[index].getSize() > MAX_COLLISION) {
+                    cout << "Rehashing again..." << endl;
                     delete[] newTable;
                     newCapacity = getNewCapacityChaining(newCapacity);
                     rehash(newCapacity);

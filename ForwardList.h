@@ -7,7 +7,7 @@ using namespace std;
 
 template<typename T>
 class ForwardList {
-    Node<T> *head;
+    Node<T> *head = nullptr;
     int size{};
 
 public:
@@ -124,9 +124,5 @@ template<typename T>
 ForwardList<T>::~ForwardList() {
     delete head;
 }
-
-
-
-
 
 #endif //AED_PROYECT_FORWARDLIST_H
