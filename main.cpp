@@ -1,9 +1,11 @@
 #include "HashTable_Chaining.h"
 #include "HashTable_OpenAddressing.h"
 #include "HashTable_Cuckoo.h"
+#include <unordered_map>
 #include <chrono>
 #include <fstream>
 #include <random>
+#include <cmath>
 
 /* ---------------------------------------------------------------------------*/
 random_device rd;
@@ -127,36 +129,57 @@ void TestCuckoo(size_t n = 100) {
     delete table;
 }
 
+void TestSTL(size_t n = 100) {
+    auto* table = new unordered_map<int, char>;
+
+
+    string nameArchive = "../DataSTL.csv";
+    ofstream archive;
+
+    auto start = std::chrono::steady_clock::now();
+    for (int i = 0; i < n; i++) {
+        table->insert({i, char((i%221)+33)});
+    }
+    auto end = std::chrono::steady_clock::now();
+
+    cout << "Insert " << n << " elements in HashTable (STL): "
+         << chrono::duration_cast<chrono::microseconds>(end - start).count()
+         << " ms" << endl;
+
+    archive.open(nameArchive.c_str(), fstream::app);
+    archive << chrono::duration_cast<chrono::microseconds>(end-start).count() << ",";
+    archive.close();
+
+    start = std::chrono::steady_clock::now();
+    for (int i = 0; i < n; i++) {
+        table->find(i);
+    }
+    end = std::chrono::steady_clock::now();
+
+    cout << "Get " << n << " elements in HashTable (STL): "
+         << chrono::duration_cast<chrono::microseconds>(end - start).count()
+         << " ms" << endl;
+
+    archive.open(nameArchive.c_str(), fstream::app);
+    archive << chrono::duration_cast<chrono::microseconds>(end-start).count() << "," << "undefined" << "," << n << "\n";
+    archive.close();
+
+    delete table;
+}
+
 
 int main() {
-    for (int i = 0; i < 10; i++) {
-        TestCuckoo();
-        TestCuckoo(1000);
-        TestCuckoo(10000);
-        TestCuckoo(100000);
-        TestCuckoo(1000000);
-        TestCuckoo(10000000);
-        TestCuckoo(100000000);
+    const int reps = 10; // number of repetitions
+    const int powers = 7; // max -> 100^powers
+
+    for (int i = 0; i < reps; i++) {
+        for (int j = 0; j < powers; ++j) {
+            TestCuckoo(pow(100, (j+1)));
+            TestChaining(pow(100, (j+1)));
+            TestOpenAddressing(pow(100,(j+1)));
+            TestSTL(pow(100,(j+1)));
+        }
     }
 
-    for (int i = 0; i < 10; i++) {
-        TestChaining();
-        TestChaining(1000);
-        TestChaining(10000);
-        TestChaining(100000);
-        TestChaining(1000000);
-        TestChaining(10000000);
-        TestChaining(100000000);
-    }
-
-    for (int i = 0; i < 10; i++) {
-        TestOpenAddressing();
-        TestOpenAddressing(1000);
-        TestOpenAddressing(10000);
-        TestOpenAddressing(100000);
-        TestOpenAddressing(1000000);
-        TestOpenAddressing(10000000);
-        TestOpenAddressing(100000000);
-    }
     return 0;
 }
