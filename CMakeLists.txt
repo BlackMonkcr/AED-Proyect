@@ -9,4 +9,5 @@ add_executable(AED_Proyect
         HashTable_OpenAddressing.h
         main.cpp
         ForwardList.h
-        HashCommonFunctions.cpp)
+        HashCommonFunctions.cpp
+        HashTable_Cuckoo.h)

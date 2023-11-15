@@ -180,7 +180,7 @@ HashTable_OpenAddressing<TK, TV>::HashTable_OpenAddressing() {
 template<typename TK, typename TV>
 void HashTable_OpenAddressing<TK, TV>::rehash() {
     this->numberReHashes++;
-    int newCapacity = getNewCapacityOpenAddressing(this->capacity);
+        int newCapacity = getNewCapacityOpenAddressing(this->capacity);
     auto* newTable = new Pair<TK, TV>[newCapacity];
     for (int i = 0; i < this->capacity; i++) {
         if (this->table[i].key != TK()) {
