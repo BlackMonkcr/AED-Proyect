@@ -29,14 +29,14 @@
         </div>
         <div class="input-group">
           <input type="number" id="keyRemove" placeholder="Key" />
-          <button id="remove">Remove</button>
+          <button id="remove" onclick="remove()">Remove</button>
         </div>
         <div class="input-group">
           <input type="number" id="keyFind" placeholder="Key" />
-          <button id="find">Find</button>
+          <button id="find" onclick="find()">Find</button>
         </div>
-        <h2>Capacity:</h2>
-        <h2>Size:</h2>
+        <h2 id="capacity">Capacity:</h2>
+        <h2 id="size">Size:</h2>
         <h2>Function Hash 1 => Key % capacity</h2>
         <h2>Function Hash 2 => (Key / capacity) % capacity</h2>
       </article>
