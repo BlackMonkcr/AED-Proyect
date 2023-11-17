@@ -1,13 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <table id="HashTablesCuckoo">
+        <tr>
+          <th>Index</th>
+          <th class="ghost-1"></th>
+          <th>HashTable 1</th>
+          <th class="ghost-2"></th>
+          <th>HashTable 2</th>
+        </tr>
+      </table>
+
+      <article>
+        <h1>HashTableCuckoo</h1>
+        <p>
+          HashTableCuckoo is a data structure that implements the Map interface.
+        </p>
+        <div class="input-group">
+          <input type="number" id="keyInsert" placeholder="Key" />
+          <input type="number" id="valueInsert" placeholder="Value" />
+          <button id="insert" onclick="insert()">Insert</button>
+        </div>
+        <div class="input-group">
+          <input type="number" id="keyRemove" placeholder="Key" />
+          <button id="remove">Remove</button>
+        </div>
+        <div class="input-group">
+          <input type="number" id="keyFind" placeholder="Key" />
+          <button id="find">Find</button>
+        </div>
+        <h2>Capacity:</h2>
+        <h2>Size:</h2>
+        <h2>Function Hash 1 => Key % capacity</h2>
+        <h2>Function Hash 2 => (Key / capacity) % capacity</h2>
+      </article>
+
+      <!-- <section id="HashTableCuckoo2">
+            HashTable secundaria
+        </section> -->
+    </main>
     <script src="script.js"></script>
-</head>
-<body>
-    <section>
-        
-    </section>
-</body>
+  </body>
 </html>
