@@ -14,13 +14,13 @@ uniform_int_distribution<> dist(1, 10000);
 /* ---------------------------------------------------------------------------*/
 
 void TestOpenAddressing(int n = 100) {
-    HashTable_OpenAddressing<int, char> table;
+    auto* table = new HashTable_OpenAddressing<int, char>;
     string nameArchive = "../DataOpenAddressing.csv";
     ofstream archive;
 
     auto start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.insert(i, char((i%221)+33));
+        table->insert(i, char((i%221)+33));
     }
     auto end = std::chrono::steady_clock::now();
 
@@ -34,20 +34,21 @@ void TestOpenAddressing(int n = 100) {
 
     start = std::chrono::steady_clock::now();
     for (int i = 0; i < n; i++) {
-        table.search(i);
+        table->search(i);
     }
     end = std::chrono::steady_clock::now();
 
-    cout << "Get " << n << " elements in HashTable (OpenAddressing): "
+    cout << "Search " << n << " elements in HashTable (OpenAddressing): "
          << chrono::duration_cast<chrono::microseconds>(end - start).count()
          << " ms" << endl;
 
     archive.open(nameArchive.c_str(), fstream::app);
-    archive << chrono::duration_cast<chrono::microseconds>(end-start).count() << "," << table.getNumberReHashes() << "," << n << "\n";
+    archive << chrono::duration_cast<chrono::microseconds>(end-start).count() << "," << table->getNumberReHashes() << "," << n << "\n";
     archive.close();
 
-    cout << "Number of rehashes: " << table.getNumberReHashes() << endl << endl;
+    cout << "Number of rehashes: " << table->getNumberReHashes() << endl << endl;
 
+    delete table;
 }
 
 
@@ -76,7 +77,7 @@ void TestChaining(size_t n = 100) {
     }
     end = std::chrono::steady_clock::now();
 
-    cout << "Get " << n << " elements in HashTable (Chaining): "
+    cout << "Search " << n << " elements in HashTable (Chaining): "
          << chrono::duration_cast<chrono::microseconds>(end - start).count()
          << " ms" << endl;
 
@@ -116,7 +117,7 @@ void TestCuckoo(size_t n = 100) {
     }
     end = std::chrono::steady_clock::now();
 
-    cout << "Get " << n << " elements in HashTable (Cuckoo): "
+    cout << "Search " << n << " elements in HashTable (Cuckoo): "
          << chrono::duration_cast<chrono::microseconds>(end - start).count()
          << " ms" << endl;
 
@@ -169,15 +170,15 @@ void TestSTL(size_t n = 100) {
 
 
 int main() {
-    const int reps = 10; // number of repetitions
-    const int powers = 7; // max -> 100^powers
+    const int reps = 400; // number of repetitions
+    const int powers = 8; // max -> 100^powers
 
     for (int i = 0; i < reps; i++) {
-        for (int j = 0; j < powers; ++j) {
-            TestCuckoo(pow(100, (j+1)));
-            TestChaining(pow(100, (j+1)));
-            TestOpenAddressing(pow(100,(j+1)));
-            TestSTL(pow(100,(j+1)));
+        for (int j = 1; j < powers; ++j) {
+            TestCuckoo(pow(10, (j+1)));
+            TestChaining(pow(10, (j+1)));
+            TestOpenAddressing(pow(10,(j+1)));
+            TestSTL(pow(10,(j+1)));
         }
     }
 

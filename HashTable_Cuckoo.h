@@ -13,7 +13,7 @@ class HashTable_Cuckoo {
     size_t capacity{};
     size_t size{};
     int numberReHashes{};
-    const float maxFill_Factor = 0.80;
+    const float maxFill_Factor = 0.70;
     Pair<TK, TV>* primary_table = nullptr;
     Pair<TK, TV>* secondary_table = nullptr;
 
@@ -70,7 +70,7 @@ size_t getNewCapacityCuckoo(size_t capacity) {
 
 template<typename TK, typename TV>
 void HashTable_Cuckoo<TK, TV>::insertHelper(TK key, TV value, int typeHashing, int cont) {
-    if (size >= (capacity * 2) * maxFill_Factor || cont >= size) {
+    if (size >= capacity * maxFill_Factor || cont >= size) {
         rehash(getNewCapacityCuckoo(capacity));
     }
     if (typeHashing == 0) {
