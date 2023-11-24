@@ -48,3 +48,5 @@ time of insert, time of get, number of rehashed, number of keys
 10,1,4,100
 793,144,11,10000
 60019,15197,17,1000000
+10,2,4,100
+1509,214,11,10000

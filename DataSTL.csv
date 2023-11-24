@@ -13,3 +13,5 @@ time of insert, time of get, number of rehashed, number of keys
 30,12,undefined,100
 2508,824,undefined,10000
 308769,76240,undefined,1000000
+47,8,undefined,100
+3672,873,undefined,10000
