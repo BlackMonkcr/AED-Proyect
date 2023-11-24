@@ -13,7 +13,7 @@ class HashTable_Cuckoo {
     size_t capacity{};
     size_t size{};
     int numberReHashes{};
-    const float maxFill_Factor = 0.70;
+    const float maxFill_Factor = 0.60;
     Pair<TK, TV>* primary_table = nullptr;
     Pair<TK, TV>* secondary_table = nullptr;
 

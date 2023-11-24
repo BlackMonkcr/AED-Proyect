@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25.2"
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "AED_Proyect::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-AED_Proyect-Debug-d52d38a9f85736003912.json",
+					"jsonFile" : "target-AED_Proyect-Debug-5e9a18155d9421894a54.json",
 					"name" : "AED_Proyect",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/UTEC/Ciclo-4/AED-Proyect/cmake-build-debug",
-		"source" : "D:/UTEC/Ciclo-4/AED-Proyect"
+		"build" : "/home/blackmonk/Ciclo-4/AED/AED-Proyect/cmake-build-debug",
+		"source" : "/home/blackmonk/Ciclo-4/AED/AED-Proyect"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 5
 	}
 }

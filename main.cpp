@@ -171,7 +171,7 @@ void TestSTL(size_t n = 100) {
 
 int main() {
     const int reps = 400; // number of repetitions
-    const int powers = 8; // max -> 100^powers
+    const int powers = 7; // max -> 100^powers
 
     for (int i = 0; i < reps; i++) {
         for (int j = 1; j < powers; ++j) {

@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "AED_Proyect.exe"
-		},
-		{
-			"path" : "AED_Proyect.pdb"
+			"path" : "AED_Proyect"
 		}
 	],
 	"backtrace" : 1,
@@ -45,17 +42,14 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
-				},
-				{
-					"fragment" : "-std=gnu++14"
+					"fragment" : "-g -std=gnu++14 -fdiagnostics-color=always"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "D:/UTEC/Ciclo-4/AED-Proyect/."
+					"path" : "/home/blackmonk/Ciclo-4/AED/AED-Proyect/."
 				}
 			],
 			"language" : "CXX",
@@ -86,16 +80,12 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
-				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "AED_Proyect",
-	"nameOnDisk" : "AED_Proyect.exe",
+	"nameOnDisk" : "AED_Proyect",
 	"paths" : 
 	{
 		"build" : ".",
