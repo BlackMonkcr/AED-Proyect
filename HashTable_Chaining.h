@@ -76,7 +76,6 @@ void HashTable_Chaining<TK, TV>::rehash(size_t newCapacity) {
                 newTable[index].push_front(temp->data);
                 temp = temp->next;
                 if (newTable[index].getSize() > MAX_COLLISION) {
-                    cout << "Rehashing again..." << endl;
                     delete[] newTable;
                     newCapacity = getNewCapacityChaining(newCapacity);
                     rehash(newCapacity);

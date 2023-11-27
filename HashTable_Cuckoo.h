@@ -29,7 +29,7 @@ class HashTable_Cuckoo {
 
     void rehash(size_t newCapacity);
 
-    void insertHelper(TK key, TV value, int typeHashing, int cont);
+    void insertHelper(TK key, TV value, int typeHashing, int cont, bool isRehashing = false);
 
 public:
     /*Constructors
@@ -39,12 +39,14 @@ public:
 
     /* Methods
     ---------------------------------------------------------------------------*/
-    void insert(TK key, TV value);
+    void insert(TK key, TV value, bool isRehashing = false);
     void remove(TK key);
     TV get(TK key);
     bool search(TK key);
     void print();
     int getNumberReHashes();
+    size_t getSize() { return this->size; }
+    size_t getCapacity() { return this->capacity; }
 
     /* Destructor
     ---------------------------------------------------------------------------*/
@@ -69,20 +71,25 @@ size_t getNewCapacityCuckoo(size_t capacity) {
 }
 
 template<typename TK, typename TV>
-void HashTable_Cuckoo<TK, TV>::insertHelper(TK key, TV value, int typeHashing, int cont) {
-    if (size >= capacity * maxFill_Factor || cont >= size) {
+void HashTable_Cuckoo<TK, TV>::insertHelper(TK key, TV value, int typeHashing, int cont, bool isRehashing) {
+    if (size >= capacity * 2 * maxFill_Factor || cont >= size/2 || cont >= 10000) {
         rehash(getNewCapacityCuckoo(capacity));
+        cont = 0;
     }
     if (typeHashing == 0) {
         size_t index_primary = getIndex_primary(key, capacity);
+        size_t index_secondary = getIndex_secondary(key, capacity);
 
         if (this->primary_table[index_primary].key == key) {
             this->primary_table[index_primary].value = value;
             return;
-        } else if (this->primary_table[index_primary].key == TK()) {
-            this->primary_table[index_primary].key = key;
-            this->primary_table[index_primary].value = value;
+        } else if (this->secondary_table[index_secondary].key == key) {
+            this->secondary_table[index_secondary].value = value;
             return;
+        } else if (this->primary_table[index_primary].key == TK()) {
+                this->primary_table[index_primary].key = key;
+                this->primary_table[index_primary].value = value;
+                return;
         } else if (this->primary_table[index_primary].key != TK()) {
             Pair<TK, TV> temp = this->primary_table[index_primary];
             this->primary_table[index_primary] = Pair<TK, TV>(key, value);
@@ -91,9 +98,13 @@ void HashTable_Cuckoo<TK, TV>::insertHelper(TK key, TV value, int typeHashing, i
         }
     } else {
         size_t index_secondary = getIndex_secondary(key, capacity);
+        size_t index_primary = getIndex_primary(key, capacity);
 
         if (this->secondary_table[index_secondary].key == key) {
             this->secondary_table[index_secondary].value = value;
+            return;
+        } else if (this->primary_table[index_primary].key == key) {
+            this->primary_table[index_primary].value = value;
             return;
         } else if (this->secondary_table[index_secondary].key == TK()) {
             this->secondary_table[index_secondary].key = key;
@@ -122,11 +133,11 @@ void HashTable_Cuckoo<TK, TV>::rehash(size_t newCapacity) {
 
     for (int i = 0; i < old_capacity; i++) {
         if (old_primary_table[i].key != TK()) {
-            insert(old_primary_table[i].key, old_secondary_table[i].value);
+            insert(old_primary_table[i].key, old_secondary_table[i].value, true);
             size--;
         }
         if (old_secondary_table[i].key != TK()) {
-            insert(old_secondary_table[i].key, old_secondary_table[i].value);
+            insert(old_secondary_table[i].key, old_secondary_table[i].value, true);
             size--;
         }
     }
@@ -156,7 +167,7 @@ HashTable_Cuckoo<TK, TV>::HashTable_Cuckoo(size_t capacity) {
 }
 
 template<typename TK, typename TV>
-void HashTable_Cuckoo<TK, TV>::insert(TK key, TV value) {
+void HashTable_Cuckoo<TK, TV>::insert(TK key, TV value, bool isRehashing) {
     this->size++;
     insertHelper(key, value, 0, 0);
 }
@@ -177,6 +188,7 @@ void HashTable_Cuckoo<TK, TV>::remove(TK key) {
         size--;
         return;
     }
+    throw std::invalid_argument("Key not found");
 }
 
 template<typename TK, typename TV>
@@ -189,6 +201,7 @@ TV HashTable_Cuckoo<TK, TV>::get(TK key) {
     } else if (this->secondary_table[index_secondary].key == key) {
         return this->secondary_table[index_secondary].value;
     }
+    throw std::invalid_argument("Key not found");
 }
 
 template<typename TK, typename TV>

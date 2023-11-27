@@ -1,67 +1,169 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  overflow: hidden;
 }
   
-  main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 50px;
-    gap: 50px;
-    height: 100vh;
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 40%;
-    height: 90%;
-  }
-  
-  th {
-    font-weight: 600;
-    text-align: center;
-    font-size: 1.2em;
-    border: 1px solid rgb(41, 41, 41);
-    padding: 5px 2px;
-    border-radius: 5px 5px 0 0;
-  }
-  
-  td {
-    text-align: center;
-    border: 1px solid rgb(41, 41, 41);
-    padding: 5px 2px;
-  }
-  
-  .article {
-    max-width: 400px;
-  }
-  
-  .input-group {
-    margin-bottom: 10px;
-  }
-  
-  input,
-  button {
-    margin-right: 5px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  .ghost-1 {
-    background-color: #fff;
-    border: none;
-  }
-  
-  .ghost-2 {
-    background-color: #fff;
-    border: none;
-  }
-  
+main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 50px;
+  gap: 50px;
+  height: 100vh;
+}
+
+#tables {
+  width: 40%;
+  height: 90%;
+  padding: 20px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #efefef; 
+
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px; /* Ajusta el valor según tus preferencias */
+  overflow: hidden; 
+}
+
+th {
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.2em;
+  border: 2px solid rgb(41, 41, 41);
+}
+
+td {
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid rgb(41, 41, 41);
+  padding: 5px 2px;
+}
+
+#info-struct {
+  width: 50%;
+  height: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  gap: 50px;
+}
+
+img {
+  width: 80%;
+  max-width: 500px;
+}
+
+article {
+  max-width: 800px;
+  height: cover;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: 0 auto;
+  color: #ededed;
+  box-shadow: 0 0 20px #08C1FE;
+  background-color: #555;
+}
+
+article h1 {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+article h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+article p {
+  margin: 0 10px;
+  font-size: 0.9em;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+input,
+button {
+  margin: 0 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background-color: #efefef;
+}
+
+button {
+  cursor: pointer;
+  background-color: #00b0eb;
+  color: #efefef;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #008ebd;
+}
+
+.ghost-1 {
+  background-color: #efefef; 
+  border: none;
+}
+
+.ghost-2 {
+  background-color: #efefef; 
+  border: none;
+}
+
+.hash-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+
+.hash-div h2 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.hash-div svg {
+  width: 25px;
+}
+
+.cell {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+@keyframes highlight {
+  0% { background-color: rgb(65, 213, 223); color: black; }
+  100% { background-color: inherit; color: inherit; }
+}
+
+@keyframes highlight-remove {
+  0% { background-color: rgb(248, 115, 110); color: black; }
+  100% { background-color: inherit; color: inherit; }
+}
+
+@keyframes highlight-find {
+  0% { background-color: rgb(248, 234, 110); color: black; }
+  100% { background-color: inherit; color: inherit; }
+}
